@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="event !== undefined">{{ event.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="event !== undefined">
+
+  <img src="{{ event.image }}" alt="" />
+
+  <div class="ion-text-center">
+    <ion-button color="success">
+      Participar
+    </ion-button>
+  </div>
+
+  <ion-list lines="none" padding>
+    <ion-item>
+      <ion-icon name="pin"></ion-icon>
+      &nbsp;&nbsp;{{ event.location }}
+    </ion-item>
+    <ion-item>
+      <ion-icon name="person"></ion-icon>
+      &nbsp;&nbsp;{{ event.modality }}
+    </ion-item>
+    <ion-item>
+      <ion-icon name="calendar"></ion-icon>
+      &nbsp;&nbsp;Desde: {{ getDate(event.start_date) }}
+    </ion-item>
+    <ion-item>
+      <ion-icon name="calendar"></ion-icon>
+      &nbsp;&nbsp;Hasta: {{ getDate(event.end_date) }}
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-text-center">
+    <ion-button (click)="showingStages = !showingStages">
+      {{ showingStages ? "Ocultar etapas" : "Ver etapas" }}
+    </ion-button>
+  </div>
+
+  <ion-list *ngIf="showingStages" class="stages">
+    <ion-item *ngFor="let stage of event.stages; let i = index" (click)="presentStageDetails($event, i)">
+      <ion-icon name="thumbs-up" color="{{colors[i % colors.length]}}"></ion-icon>
+      &nbsp;&nbsp;{{ stage.name }}
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <p>{{ event.description }}</p>
+  </ion-item>
+
+  <div class="ion-text-center">
+    <ion-button color="success">
+      Participar
+    </ion-button>
+  </div>
+    
+</ion-content>

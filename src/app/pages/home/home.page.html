@@ -7,12 +7,17 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Contest X</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Contest X description
-    </ion-card-content>
-  </ion-card>
+  
+      <ion-card *ngFor="let event of events" routerLink="/event/{{ event.id }}">
+        <img src="{{ event.image }}" alt="">
+        <ion-card-header>
+          <ion-card-title>{{ event.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ event.description.length > 150 ? 
+            event.description.slice(0, 150) + "..." : 
+            event.description }}
+        </ion-card-content>
+      </ion-card>
+  
 </ion-content>
