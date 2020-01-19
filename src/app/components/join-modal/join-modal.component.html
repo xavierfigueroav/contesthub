@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Participar en {{ event.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-radio-group>
+    <ion-list-header>
+      <h5>¿Cómo quieres participar?</h5>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>Crear un nuevo grupo</ion-label>
+      <ion-radio slot="start" (ionSelect)="newGroup = true" checked="newGroup"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Unirte a un grupo existente</ion-label>
+      <ion-radio slot="start" (ionSelect)="newGroup = false" checked="!newGroup"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+
+  <ion-item [hidden]="!newGroup">
+    <ion-input placeholder="Ingresa el nombre del grupo" #groupName></ion-input>
+  </ion-item>
+
+  <ion-item [hidden]="newGroup">
+    <ion-input placeholder="Ingresa el join code del grupo" #joinCode></ion-input>
+  </ion-item>
+
+  <div class="ion-text-center">
+    <ion-button (click)="joinEvent()">
+      Participar
+    </ion-button>
+    <ion-button color="danger" (click)="cancel()">
+      Cancelar
+    </ion-button>
+  </div>
+</ion-content>
