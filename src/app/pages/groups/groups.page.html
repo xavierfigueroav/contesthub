@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis grupos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let group of groups">
+
+    <img src="{{ group.event.image }}" alt="">
+
+    <ion-card-header>
+      <ion-card-title>{{ group.name }} en {{ group.event.name }}</ion-card-title>
+      <ion-card-subtitle>Join code: {{ group.join_code }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      
+      <ion-list>
+        <ion-item *ngFor="let part of group.participants">
+          {{ part.names }} {{ part.last_names }}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+
+  </ion-card>
+  
+  <div class="ion-text-center"
+  *ngIf="groups === undefined || groups.length === 0">
+      No tienes ningún grupo aún
+  </div>
+
+</ion-content>
