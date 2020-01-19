@@ -8,6 +8,7 @@ import { EventPageRoutingModule } from './event-routing.module';
 
 import { EventPage } from './event.page';
 import { StageDetailPopoverComponent } from 'src/app/components/stage-detail-popover/stage-detail-popover.component';
+import { JoinModalComponent } from 'src/app/components/join-modal/join-modal.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { StageDetailPopoverComponent } from 'src/app/components/stage-detail-pop
     IonicModule,
     EventPageRoutingModule
   ],
-  declarations: [EventPage, StageDetailPopoverComponent],
-  entryComponents: [StageDetailPopoverComponent]
+  declarations: [EventPage, StageDetailPopoverComponent, JoinModalComponent],
+  entryComponents: [StageDetailPopoverComponent, JoinModalComponent]
 })
 export class EventPageModule {}

@@ -11,10 +11,13 @@
 
   <img src="{{ event.image }}" alt="" />
 
-  <div class="ion-text-center">
-    <ion-button color="success">
+  <div class="ion-text-center" *ngIf="!isParticipant">
+    <ion-button color="success" (click)="joinEvent()">
       Participar
     </ion-button>
+  </div>
+  <div class="ion-text-center" *ngIf="isParticipant">
+    <ion-label color="success"><strong>¡Ya estás participando en este evento!</strong></ion-label>
   </div>
 
   <ion-list lines="none" padding>
@@ -49,14 +52,17 @@
     </ion-item>
   </ion-list>
 
-  <ion-item>
+  <ion-item lines="none">
     <p>{{ event.description }}</p>
   </ion-item>
 
-  <div class="ion-text-center">
-    <ion-button color="success">
+  <div class="ion-text-center" *ngIf="!isParticipant">
+    <ion-button color="success" (click)="joinEvent()">
       Participar
     </ion-button>
+  </div>
+  <div class="ion-text-center" *ngIf="isParticipant">
+    <ion-label color="success"><strong>¡Ya estás participando en este evento!</strong></ion-label>
   </div>
     
 </ion-content>
