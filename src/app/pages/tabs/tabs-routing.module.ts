@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { HomePage } from '../home/home.page';
 import { GroupsPage } from '../groups/groups.page';
+import { DashboardPage } from '../dashboard/dashboard.page';
 
 const routes: Routes = [
   {
@@ -25,6 +26,15 @@ const routes: Routes = [
           {
             path: '',
             component: GroupsPage
+          }
+        ]
+      },
+      {
+        path: 'dashboard',
+        children: [
+          {
+            path: '',
+            component: DashboardPage
           }
         ]
       },
