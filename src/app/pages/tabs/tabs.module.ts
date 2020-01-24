@@ -9,6 +9,7 @@ import { TabsPageRoutingModule } from './tabs-routing.module';
 import { TabsPage } from './tabs.page';
 import { HomePageModule } from '../home/home.module';
 import { GroupsPageModule } from '../groups/groups.module';
+import { DashboardPageModule } from '../dashboard/dashboard.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { GroupsPageModule } from '../groups/groups.module';
     IonicModule,
     TabsPageRoutingModule,
     HomePageModule,
-    GroupsPageModule
+    GroupsPageModule,
+    DashboardPageModule
   ],
   declarations: [TabsPage]
 })

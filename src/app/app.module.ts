@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { API } from './services/API.service';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     StatusBar,
     SplashScreen,
     API,
+    FileChooser,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

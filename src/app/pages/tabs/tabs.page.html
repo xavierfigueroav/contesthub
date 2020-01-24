@@ -5,7 +5,7 @@
       <ion-label>Eventos</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="groups">
+    <ion-tab-button *ngIf="!session.isOrganizer()" tab="groups">
       <ion-icon name="contacts"></ion-icon>
       <ion-label>Grupos</ion-label>
     </ion-tab-button>

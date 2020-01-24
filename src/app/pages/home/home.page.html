@@ -1,8 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      ContestHub
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>ContestHub</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,5 +20,11 @@
             event.description }}
         </ion-card-content>
       </ion-card>
+
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="session.isOrganizer()">
+        <ion-fab-button routerLink="/event-creation">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
   
 </ion-content>

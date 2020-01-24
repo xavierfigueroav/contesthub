@@ -1,0 +1,139 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nuevo evento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-label><strong>Información general</strong></ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Nombre</ion-label>
+    <ion-input #name></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Ubicación</ion-label>
+    <ion-input #location></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Modalidad</ion-label>
+    <ion-select value="Presencial" okText="OK" cancelText="Cancelar" #modality>
+      <ion-select-option value="Presencial">Presencial</ion-select-option>
+      <ion-select-option value="Semi-Presencial">Semi-presencial</ion-select-option>
+      <ion-select-option value="Remota">Remota</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Descripción</ion-label>
+    <ion-input #description></ion-input>
+  </ion-item>
+  <ion-item hidden>
+    <ion-label>Foto</ion-label>
+    <ion-input accept="file" (ionFocus)="openChooser()" [value]="file"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Fecha de inicio</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY HH:mm" value="" cancelText="Cancelar" doneText="Hecho" #startDate></ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label>Fecha de fin</ion-label>
+    <ion-datetime displayFormat="DD/MM/YYYY HH:mm" value="" cancelText="Cancelar" doneText="Hecho" #endDate></ion-datetime>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-label><strong>Etapas</strong></ion-label>
+  </ion-item>
+
+  <ion-list>
+    <ion-radio-group>
+      <ion-item>
+        <ion-label>Compentencia de una sola etapa</ion-label>
+        <ion-radio slot="start" value="single-stage" (ionSelect)="singleStage = true" checked></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Más de una etapa</ion-label>
+        <ion-radio slot="start" value="multiple-stages" (ionSelect)="singleStage = false"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
+  <div *ngIf="!singleStage">
+    <ion-card *ngFor="let stage of stages; let i = index">
+      <ion-card-content>
+        <ion-item>
+          <ion-label>Nombre</ion-label>
+          <ion-input [(ngModel)]="stage.name" #stageName></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Descripción</ion-label>
+          <ion-input [(ngModel)]="stage.description" #stageDescription></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Fecha de inicio</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [(ngModel)]="stage.startDate" cancelText="Cancelar" doneText="Hecho" #stageStartDate></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>Fecha de fin</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY HH:mm" [(ngModel)]="stage.endDate" cancelText="Cancelar" doneText="Hecho" #stageEndDate></ion-datetime>
+        </ion-item>
+        <div class="ion-text-center" *ngIf="i > 0">
+          <ion-button color="danger" (click)="deleteStage(i)">
+            Eliminar etapa
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="ion-text-center">
+      <ion-button color="primary" (click)="addStage()">
+        Agregar etapa
+      </ion-button>
+    </div>
+  </div>
+
+  <ion-item lines="none">
+    <ion-label><strong>Restricciones</strong></ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Restricción de edad</ion-label>
+    <ion-checkbox slot="start" color="primary" #ageForm></ion-checkbox>
+  </ion-item>
+  <div *ngIf="ageForm.checked">
+    <ion-item>
+      <ion-label>Edad mínima</ion-label>
+      <ion-input type="number" #minAge></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Edad máxima</ion-label>
+      <ion-input type="number" #maxAge></ion-input>
+    </ion-item>
+
+  </div>
+  <ion-item>
+    <ion-label>Tamaño de los grupos</ion-label>
+    <ion-checkbox slot="start" color="primary" #sizeForm></ion-checkbox>
+  </ion-item>
+  <div *ngIf="sizeForm.checked">
+    <ion-item>
+      <ion-label>Tamaño mínimo</ion-label>
+      <ion-input type="number" #minSize></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Tamaño máximo</ion-label>
+      <ion-input type="number" #maxSize></ion-input>
+    </ion-item>
+  </div>
+
+  <div class="ion-text-center">
+    <ion-button color="success" (click)="createEvent()">
+      Crear evento
+    </ion-button>
+  </div>
+
+</ion-content>

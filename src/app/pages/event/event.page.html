@@ -11,15 +11,17 @@
 
   <img src="{{ event.image }}" alt="" />
 
-  <div class="ion-text-center" *ngIf="!isParticipant">
-    <ion-button color="success" (click)="joinEvent()">
-      Participar
-    </ion-button>
+  <div *ngIf="!session.isOrganizer()">
+    <div class="ion-text-center" *ngIf="!isParticipant">
+      <ion-button color="success" (click)="joinEvent()">
+        Participar
+      </ion-button>
+    </div>
+    <div class="ion-text-center" *ngIf="isParticipant">
+      <ion-label color="success"><strong>¡Ya estás participando en este evento!</strong></ion-label>
+    </div>
   </div>
-  <div class="ion-text-center" *ngIf="isParticipant">
-    <ion-label color="success"><strong>¡Ya estás participando en este evento!</strong></ion-label>
-  </div>
-
+  
   <ion-list lines="none" padding>
     <ion-item>
       <ion-icon name="pin"></ion-icon>
@@ -39,10 +41,14 @@
     </ion-item>
   </ion-list>
 
-  <div class="ion-text-center">
+  <div class="ion-text-center" *ngIf="event.stages !== undefined && event.stages.length > 0">
     <ion-button (click)="showingStages = !showingStages">
       {{ showingStages ? "Ocultar etapas" : "Ver etapas" }}
     </ion-button>
+  </div>
+
+  <div class="ion-text-center" *ngIf="event.stages === undefined || event.stages.length < 1">
+    <ion-label color="primary"><strong>Este es un evento de una sola etapa</strong></ion-label>
   </div>
 
   <ion-list *ngIf="showingStages" class="stages">
@@ -56,13 +62,44 @@
     <p>{{ event.description }}</p>
   </ion-item>
 
-  <div class="ion-text-center" *ngIf="!isParticipant">
-    <ion-button color="success" (click)="joinEvent()">
-      Participar
-    </ion-button>
+  <div *ngIf="!session.isOrganizer()">
+    <div class="ion-text-center" *ngIf="!isParticipant">
+      <ion-button color="success" (click)="joinEvent()">
+        Participar
+      </ion-button>
+    </div>
+    <div class="ion-text-center" *ngIf="isParticipant">
+      <ion-label color="success"><strong>¡Ya estás participando en este evento!</strong></ion-label>
+    </div>
   </div>
-  <div class="ion-text-center" *ngIf="isParticipant">
-    <ion-label color="success"><strong>¡Ya estás participando en este evento!</strong></ion-label>
+
+  <div *ngIf="session.isOrganizer() && event.groups !== undefined && event.groups.length > 0">
+    <ion-item lines="none">
+      <ion-label><strong>Grupos</strong></ion-label>
+    </ion-item>
+
+    <ion-card *ngFor="let group of event.groups">
+      <ion-card-header>
+        <ion-card-title>{{ group.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let part of group.participants">
+            {{ part.names }} {{ part.last_names }}
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="ion-text-center" *ngIf="session.isOrganizer() && (event.groups === undefined || event.groups.length < 1)">
+    <ion-label color="warning"><strong>¡Aún nadie se ha registrado a tu evento! :(</strong></ion-label>
+  </div>
+
+  <div class="ion-text-center" *ngIf="session.isOrganizer()">
+    <ion-button color="danger" (click)="deleteEvent()">
+      Eliminar evento
+    </ion-button>
   </div>
     
 </ion-content>

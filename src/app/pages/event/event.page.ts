@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { API } from 'src/app/services/API.service';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController, PopoverController, ModalController } from '@ionic/angular';
+import { ToastController, PopoverController, ModalController, NavController } from '@ionic/angular';
 import * as moment from 'moment';
 import { StageDetailPopoverComponent } from 'src/app/components/stage-detail-popover/stage-detail-popover.component';
 import { JoinModalComponent } from 'src/app/components/join-modal/join-modal.component';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-event',
@@ -16,7 +17,7 @@ export class EventPage implements OnInit {
   event: any;
   colors = ['primary', 'secondary', 'danger', 'success', 'warning'];
   showingStages = false;
-  infitineToastConfig = { message: 'Creando el grupo...' };
+  infitineToastConfig = { message: '' };
   fixTimedToastConfig = {
     message: '',
     duration: 3000
@@ -25,6 +26,8 @@ export class EventPage implements OnInit {
 
   constructor(
     public api: API,
+    public session: SessionService,
+    public navigation: NavController,
     public route: ActivatedRoute,
     public toast: ToastController,
     public popover: PopoverController,
@@ -36,7 +39,10 @@ export class EventPage implements OnInit {
       this.api.getEvent(params.id).then(response => {
 
         this.event = response;
-        return this.api.verfiyParticipation(1, this.event.id);
+        if (this.session.isOrganizer()) {
+          return Promise.resolve(false);
+        }
+        return this.api.verfiyParticipation(this.session.userId, this.event.id);
 
       }).then(isParticipant => {
 
@@ -46,6 +52,13 @@ export class EventPage implements OnInit {
       }).then(eventStage => {
 
         this.event.stages = eventStage;
+        return this.api.getGroupsByEvent(this.event.id);
+
+      }).then(groups => {
+
+        console.log(groups);
+
+        this.event.groups = groups;
 
       }).catch(error => {
 
@@ -78,6 +91,7 @@ export class EventPage implements OnInit {
 
     if (data === undefined) { return; }
 
+    this.infitineToastConfig.message = 'Creando el grupo...';
     const loadingToast = await this.toast.create(this.infitineToastConfig);
     loadingToast.present();
 
@@ -120,6 +134,31 @@ export class EventPage implements OnInit {
       });
 
     }
+  }
+
+  async deleteEvent() {
+
+    this.infitineToastConfig.message = 'Eliminando el grupo...';
+    const loadingToast = await this.toast.create(this.infitineToastConfig);
+    loadingToast.present();
+
+    this.api.deleteEvent(this.event.id).then(() => {
+
+      this.fixTimedToastConfig.message = 'El grupo fue eliminado con éxito';
+      setTimeout(() => {
+        this.navigation.back();
+      }, 1000);
+
+    }).catch(error => {
+
+      this.fixTimedToastConfig.message = error;
+
+    }).finally(() => {
+      setTimeout(() => {
+        loadingToast.dismiss();
+        this.toast.create(this.fixTimedToastConfig).then(toast => toast.present());
+      }, 1000);
+    });
   }
 
   getDate(date: string) {
