@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { API } from 'src/app/services/API.service';
 import { SessionService } from 'src/app/services/session.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, NavController } from '@ionic/angular';
 import { resolve } from 'url';
 
 @Component({
@@ -36,7 +36,12 @@ export class EventCreationPage implements OnInit {
   @ViewChild('minSize', { static: false }) minSize: any;
   @ViewChild('maxSize', { static: false }) maxSize: any;
 
-  constructor(public api: API, public session: SessionService, public chooser: FileChooser, public toast: ToastController) { }
+  constructor(
+    public api: API,
+    public session: SessionService,
+    public navigation: NavController,
+    public chooser: FileChooser,
+    public toast: ToastController) { }
 
   ngOnInit() {
 
@@ -112,6 +117,7 @@ export class EventCreationPage implements OnInit {
       }
       this.fixTimedToastConfig.message = 'El evento fue creado con éxito';
       this.toast.create(this.fixTimedToastConfig).then(toast => toast.present());
+      this.navigation.back();
     })
     .catch(error => {
 
